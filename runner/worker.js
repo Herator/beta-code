@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import { Worker } from "bullmq";
 import IORedis from "ioredis";
 import { execFile } from "node:child_process";
