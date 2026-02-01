@@ -3,13 +3,18 @@ import IORedis from "ioredis";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const execFileAsync = promisify(execFile);
 
+// Project root is one level up from runner/
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = join(__dirname, "..");
+
 const REDIS_URL = process.env.REDIS_URL;
-const PROBLEMS_DIR = process.env.PROBLEMS_DIR || "/srv/judge/problems";
-const JOBS_BASE = process.env.JOBS_BASE || "/srv/judge/jobs";
+const PROBLEMS_DIR = process.env.PROBLEMS_DIR || join(PROJECT_ROOT, "runner_problems");
+const JOBS_BASE = process.env.JOBS_BASE || join(PROJECT_ROOT, "runner_jobs");
 const CONCURRENCY = Number(process.env.CONCURRENCY || "50");
 
 await mkdir(JOBS_BASE, { recursive: true });
