@@ -4,8 +4,8 @@ set -eu
 rm -f /sandbox/main /sandbox/results.json /sandbox/compile_stderr.txt /sandbox/run_stderr.txt
 mkdir -p /sandbox/outs
 
-# Compile (uses precompiled header built into the image for faster parsing)
-if ! g++ /sandbox/main.cpp -std=c++20 -O2 -pipe -include /usr/local/include/pch.hpp -o /sandbox/main 2> /sandbox/compile_stderr.txt; then
+# Compile (-pipe avoids temp files; PCH in the image speeds up standard header parsing)
+if ! g++ /sandbox/main.cpp -std=c++20 -O2 -pipe -o /sandbox/main 2> /sandbox/compile_stderr.txt; then
   printf '{ "verdict": "CE" }\n' > /sandbox/results.json
   exit 0
 fi
