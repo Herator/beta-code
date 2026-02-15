@@ -131,12 +131,14 @@ const starterCode = getStarterCode(id);
       }
 
       if (data.state === "completed") {
-        const verdict = data.result?.verdict ?? "Unknown";
+        const verdict = data.result?.verdict ?? "Internal Error";
         const map = {
           Accepted: "✅ Accepted",
           "Wrong Answer": "❌ Wrong Answer",
           "Compile Error": "🛠 Compile Error",
           "Time Limit Exceeded": "⏱ Time Limit Exceeded",
+          "Runtime Error": "💥 Runtime Error",
+          "No Tests": "⚠ No Tests Found",
         };
         resultBox.textContent = map[verdict] ?? verdict;
          

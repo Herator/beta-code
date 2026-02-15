@@ -115,6 +115,10 @@ new Worker(
         return { verdict: "Compile Error", error: compileErr };
       }
 
+      if (results.verdict === "NO_TESTS") {
+        return { verdict: "No Tests", error: "No test inputs were found for this problem." };
+      }
+
       const execFail = (results.tests || []).find((t) => t.status && t.status !== "OK");
       if (execFail) {
         const def = tests.find((t) => t.name === execFail.name);
