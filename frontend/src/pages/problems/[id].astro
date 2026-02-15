@@ -166,17 +166,26 @@ const starterCode = getStarterCode(id);
           if (result.failedTest) {
             details += `Failed on test: ${result.failedTest}\n`;
           }
-          if (result.error) {
-            details += result.error;
+          if (result.input) {
+            details += `\n--- Input ---\n${result.input}\n`;
           }
-        } else if (verdict === "Time Limit Exceeded" && result.failedTest) {
-          details = `Exceeded time limit on test: ${result.failedTest}`;
+          if (result.error) {
+            details += `\n--- Error ---\n${result.error}`;
+          }
+        } else if (verdict === "Time Limit Exceeded") {
+          if (result.failedTest) {
+            details = `Exceeded time limit on test: ${result.failedTest}`;
+          }
+          if (result.input) {
+            details += `\n\n--- Input ---\n${result.input}`;
+          }
         } else if (verdict === "Wrong Answer" && result.tests) {
           const failed = result.tests.find((t) => t.status === "WA");
           if (failed && failed.name !== "hidden") {
-            details += `Failed on test: ${failed.name}\n\n`;
-            details += `--- Expected ---\n${failed.expected ?? ""}\n\n`;
-            details += `--- Your Output ---\n${failed.output ?? ""}`;
+            details += `Failed on test: ${failed.name}\n`;
+            details += `\n--- Input ---\n${failed.input ?? ""}\n`;
+            details += `\n--- Expected ---\n${failed.expected ?? ""}\n`;
+            details += `\n--- Your Output ---\n${failed.output ?? ""}`;
           } else if (failed) {
             details = "Failed on a hidden test.";
           }
