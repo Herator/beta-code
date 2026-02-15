@@ -1,4 +1,502 @@
 [
-  { "item": "Apple", "price": 1.50, "qty": 10 },
-  { "item": "Bread", "price": 2.00, "qty": 5 }
+  {
+    "item": "Apple",
+    "price": 19.03,
+    "qty": 12
+  },
+  {
+    "item": "Bread",
+    "price": 19.85,
+    "qty": 3
+  },
+  {
+    "item": "Milk",
+    "price": 16.15,
+    "qty": 3
+  },
+  {
+    "item": "Cheese",
+    "price": 19.86,
+    "qty": 20
+  },
+  {
+    "item": "Butter",
+    "price": 14.91,
+    "qty": 16
+  },
+  {
+    "item": "Eggs",
+    "price": 8.84,
+    "qty": 3
+  },
+  {
+    "item": "Rice",
+    "price": 7.26,
+    "qty": 13
+  },
+  {
+    "item": "Pasta",
+    "price": 8.8,
+    "qty": 3
+  },
+  {
+    "item": "Chicken",
+    "price": 1.59,
+    "qty": 15
+  },
+  {
+    "item": "Beef",
+    "price": 16.44,
+    "qty": 12
+  },
+  {
+    "item": "Salmon",
+    "price": 15.62,
+    "qty": 13
+  },
+  {
+    "item": "Tuna",
+    "price": 16.63,
+    "qty": 19
+  },
+  {
+    "item": "Shrimp",
+    "price": 1.91,
+    "qty": 4
+  },
+  {
+    "item": "Tofu",
+    "price": 16.67,
+    "qty": 16
+  },
+  {
+    "item": "Beans",
+    "price": 8.1,
+    "qty": 17
+  },
+  {
+    "item": "Lentils",
+    "price": 3.81,
+    "qty": 6
+  },
+  {
+    "item": "Tomato",
+    "price": 19.53,
+    "qty": 15
+  },
+  {
+    "item": "Potato",
+    "price": 7.89,
+    "qty": 1
+  },
+  {
+    "item": "Onion",
+    "price": 9.95,
+    "qty": 19
+  },
+  {
+    "item": "Garlic",
+    "price": 17.98,
+    "qty": 18
+  },
+  {
+    "item": "Pepper",
+    "price": 1.78,
+    "qty": 8
+  },
+  {
+    "item": "Carrot",
+    "price": 6.45,
+    "qty": 11
+  },
+  {
+    "item": "Broccoli",
+    "price": 13.35,
+    "qty": 16
+  },
+  {
+    "item": "Spinach",
+    "price": 18.1,
+    "qty": 10
+  },
+  {
+    "item": "Lettuce",
+    "price": 9.71,
+    "qty": 9
+  },
+  {
+    "item": "Cucumber",
+    "price": 1.66,
+    "qty": 4
+  },
+  {
+    "item": "Avocado",
+    "price": 11.06,
+    "qty": 6
+  },
+  {
+    "item": "Banana",
+    "price": 5.39,
+    "qty": 5
+  },
+  {
+    "item": "Orange",
+    "price": 9.94,
+    "qty": 16
+  },
+  {
+    "item": "Grape",
+    "price": 12.23,
+    "qty": 3
+  },
+  {
+    "item": "Mango",
+    "price": 0.11,
+    "qty": 2
+  },
+  {
+    "item": "Peach",
+    "price": 10.69,
+    "qty": 19
+  },
+  {
+    "item": "Pear",
+    "price": 12.77,
+    "qty": 19
+  },
+  {
+    "item": "Plum",
+    "price": 9.41,
+    "qty": 7
+  },
+  {
+    "item": "Cherry",
+    "price": 0.46,
+    "qty": 4
+  },
+  {
+    "item": "Melon",
+    "price": 12.81,
+    "qty": 10
+  },
+  {
+    "item": "Kiwi",
+    "price": 11.44,
+    "qty": 3
+  },
+  {
+    "item": "Lemon",
+    "price": 4.35,
+    "qty": 1
+  },
+  {
+    "item": "Lime",
+    "price": 18.34,
+    "qty": 5
+  },
+  {
+    "item": "Fig",
+    "price": 13.12,
+    "qty": 13
+  },
+  {
+    "item": "Yogurt",
+    "price": 0.56,
+    "qty": 17
+  },
+  {
+    "item": "Cream",
+    "price": 7.87,
+    "qty": 13
+  },
+  {
+    "item": "Juice",
+    "price": 8.35,
+    "qty": 9
+  },
+  {
+    "item": "Water",
+    "price": 13.17,
+    "qty": 1
+  },
+  {
+    "item": "Soda",
+    "price": 7.9,
+    "qty": 12
+  },
+  {
+    "item": "Tea",
+    "price": 0.22,
+    "qty": 16
+  },
+  {
+    "item": "Coffee",
+    "price": 13.39,
+    "qty": 11
+  },
+  {
+    "item": "Cocoa",
+    "price": 12.27,
+    "qty": 18
+  },
+  {
+    "item": "Sugar",
+    "price": 5.81,
+    "qty": 17
+  },
+  {
+    "item": "Salt",
+    "price": 19.57,
+    "qty": 1
+  },
+  {
+    "item": "Flour",
+    "price": 10.82,
+    "qty": 2
+  },
+  {
+    "item": "Oil",
+    "price": 7.04,
+    "qty": 9
+  },
+  {
+    "item": "Vinegar",
+    "price": 18.6,
+    "qty": 14
+  },
+  {
+    "item": "Honey",
+    "price": 7.24,
+    "qty": 6
+  },
+  {
+    "item": "Syrup",
+    "price": 13.92,
+    "qty": 16
+  },
+  {
+    "item": "Mustard",
+    "price": 12.34,
+    "qty": 4
+  },
+  {
+    "item": "Ketchup",
+    "price": 15.5,
+    "qty": 20
+  },
+  {
+    "item": "Mayo",
+    "price": 5.81,
+    "qty": 12
+  },
+  {
+    "item": "Sauce",
+    "price": 10.1,
+    "qty": 11
+  },
+  {
+    "item": "Salsa",
+    "price": 11.58,
+    "qty": 13
+  },
+  {
+    "item": "Chips",
+    "price": 3.82,
+    "qty": 10
+  },
+  {
+    "item": "Crackers",
+    "price": 18.16,
+    "qty": 8
+  },
+  {
+    "item": "Cereal",
+    "price": 2.33,
+    "qty": 9
+  },
+  {
+    "item": "Oats",
+    "price": 7.62,
+    "qty": 6
+  },
+  {
+    "item": "Granola",
+    "price": 1.71,
+    "qty": 4
+  },
+  {
+    "item": "Nuts",
+    "price": 5.84,
+    "qty": 6
+  },
+  {
+    "item": "Seeds",
+    "price": 13.57,
+    "qty": 1
+  },
+  {
+    "item": "Raisins",
+    "price": 18.71,
+    "qty": 3
+  },
+  {
+    "item": "Dates",
+    "price": 11.84,
+    "qty": 10
+  },
+  {
+    "item": "Prunes",
+    "price": 10.71,
+    "qty": 12
+  },
+  {
+    "item": "Jam",
+    "price": 0.5,
+    "qty": 7
+  },
+  {
+    "item": "Peanut",
+    "price": 16.36,
+    "qty": 11
+  },
+  {
+    "item": "Almond",
+    "price": 4.33,
+    "qty": 18
+  },
+  {
+    "item": "Walnut",
+    "price": 9.05,
+    "qty": 11
+  },
+  {
+    "item": "Cashew",
+    "price": 4.77,
+    "qty": 12
+  },
+  {
+    "item": "Pecan",
+    "price": 18.9,
+    "qty": 2
+  },
+  {
+    "item": "Hazel",
+    "price": 13.48,
+    "qty": 14
+  },
+  {
+    "item": "Pistachio",
+    "price": 16.65,
+    "qty": 19
+  },
+  {
+    "item": "Coconut",
+    "price": 4.03,
+    "qty": 6
+  },
+  {
+    "item": "Olive",
+    "price": 19.64,
+    "qty": 10
+  },
+  {
+    "item": "Pickle",
+    "price": 1.22,
+    "qty": 19
+  },
+  {
+    "item": "Radish",
+    "price": 16.79,
+    "qty": 10
+  },
+  {
+    "item": "Celery",
+    "price": 5.06,
+    "qty": 9
+  },
+  {
+    "item": "Corn",
+    "price": 11.98,
+    "qty": 10
+  },
+  {
+    "item": "Peas",
+    "price": 8.66,
+    "qty": 12
+  },
+  {
+    "item": "Squash",
+    "price": 0.31,
+    "qty": 14
+  },
+  {
+    "item": "Yam",
+    "price": 2.8,
+    "qty": 7
+  },
+  {
+    "item": "Turnip",
+    "price": 13.82,
+    "qty": 11
+  },
+  {
+    "item": "Beet",
+    "price": 18.24,
+    "qty": 18
+  },
+  {
+    "item": "Fennel",
+    "price": 10.15,
+    "qty": 2
+  },
+  {
+    "item": "Basil",
+    "price": 14.62,
+    "qty": 17
+  },
+  {
+    "item": "Thyme",
+    "price": 2.42,
+    "qty": 6
+  },
+  {
+    "item": "Mint",
+    "price": 18.35,
+    "qty": 14
+  },
+  {
+    "item": "Sage",
+    "price": 8.68,
+    "qty": 2
+  },
+  {
+    "item": "Dill",
+    "price": 4.86,
+    "qty": 5
+  },
+  {
+    "item": "Parsley",
+    "price": 8.26,
+    "qty": 17
+  },
+  {
+    "item": "Cumin",
+    "price": 7.84,
+    "qty": 3
+  },
+  {
+    "item": "Clove",
+    "price": 18.11,
+    "qty": 20
+  },
+  {
+    "item": "Ginger",
+    "price": 6.01,
+    "qty": 10
+  },
+  {
+    "item": "Paprika",
+    "price": 3.02,
+    "qty": 15
+  }
 ]
