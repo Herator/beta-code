@@ -113,12 +113,18 @@ const starterCode = getStarterCode(id);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  function escapeHtml(str) {
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  function showResult(headerText, detailsText) {
+    resultBox.textContent = "";
+    const h = document.createElement("div");
+    h.className = "verdict-header";
+    h.textContent = headerText;
+    resultBox.appendChild(h);
+    if (detailsText) {
+      const pre = document.createElement("pre");
+      pre.className = "error-details";
+      pre.textContent = detailsText;
+      resultBox.appendChild(pre);
+    }
   }
 
   async function pollStatus(jobId) {
@@ -176,13 +182,7 @@ const starterCode = getStarterCode(id);
           }
         }
 
-        if (details) {
-          resultBox.innerHTML =
-            `<div class="verdict-header">${header}</div>` +
-            `<pre class="error-details">${escapeHtml(details)}</pre>`;
-        } else {
-          resultBox.innerHTML = `<div class="verdict-header">${header}</div>`;
-        }
+        showResult(header, details);
 
         // Mark task as completed if accepted
         if (verdict === "Accepted") {
