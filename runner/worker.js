@@ -39,7 +39,6 @@ async function runDocker(mountDir) {
     "--cap-drop", "ALL",
     "--user", `${process.getuid?.() ?? 1000}:${process.getgid?.() ?? 1000}`,
     "-v", `${mountDir}:/sandbox:rw`,
-    "--tmpfs", "/tmp:rw,noexec,nosuid,size=64m",
     "cpp-sandbox:latest",
   ];
 
