@@ -1,6 +1,5 @@
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { problems } from "../data/problems";
 
 export interface Task {
   id: number;
@@ -10,6 +9,8 @@ export interface Task {
   points: number;
   type: "solve" | "fix";
   difficulty: string;
+  tags: string[];
+  data_file: string | null;
   created_at: Date;
 }
 
@@ -47,21 +48,6 @@ function toSerializedTest(test: TaskTest): SerializedTaskTest {
   return { ...test, created_at: test.created_at.toISOString() };
 }
 
-function toDefaultTasks(): SerializedTask[] {
-  const now = new Date().toISOString();
-  return problems.map((p) => ({
-    id: Number(p.id),
-    name: p.title,
-    description: p.description,
-    code_preview: p.starterCode,
-    points: p.points,
-    type: p.type,
-    difficulty: p.difficulty,
-    created_at: now,
-  }));
-}
-
-
 async function readTasksStore(): Promise<SerializedTask[]> {
   const raw = await readFile(tasksStorePath, "utf8");
   const parsed = JSON.parse(raw) as { tasks?: SerializedTask[] } | SerializedTask[];
@@ -88,20 +74,9 @@ export async function initTasksTable() {
   await mkdir(path.dirname(tasksStorePath), { recursive: true });
 
   try {
-    await access(tasksStorePath);
-  } catch {
-    await writeTasksStore(toDefaultTasks());
-  }
-
-  try {
     await access(testsStorePath);
   } catch {
     await writeTestsStore([]);
-  }
-
-  const tasks = await readTasksStore();
-  if (!Array.isArray(tasks) || tasks.length === 0) {
-    await writeTasksStore(toDefaultTasks());
   }
 
   const tests = await readTestsStore();
@@ -128,6 +103,8 @@ export async function createTask(data: {
   points: number;
   type: "solve" | "fix";
   difficulty: string;
+  tags?: string[];
+  data_file?: string | null;
 }): Promise<Task> {
   const tasks = await readTasksStore();
   const nextId = tasks.reduce((max, task) => Math.max(max, task.id), 0) + 1;
@@ -139,6 +116,8 @@ export async function createTask(data: {
     points: data.points,
     type: data.type,
     difficulty: data.difficulty,
+    tags: data.tags ?? [],
+    data_file: data.data_file ?? null,
     created_at: new Date(),
   };
 
@@ -149,7 +128,7 @@ export async function createTask(data: {
 
 export async function updateTask(
   id: number,
-  data: Partial<Pick<Task, "name" | "description" | "code_preview" | "points" | "type" | "difficulty">>
+  data: Partial<Pick<Task, "name" | "description" | "code_preview" | "points" | "type" | "difficulty" | "tags" | "data_file">>
 ): Promise<Task | null> {
   const tasks = await readTasksStore();
   const task = tasks.find((entry) => entry.id === id);
@@ -161,6 +140,8 @@ export async function updateTask(
   if (data.points !== undefined) task.points = data.points;
   if (data.type !== undefined) task.type = data.type;
   if (data.difficulty !== undefined) task.difficulty = data.difficulty;
+  if (data.tags !== undefined) task.tags = data.tags;
+  if (data.data_file !== undefined) task.data_file = data.data_file;
 
   await writeTasksStore(tasks);
   return fromSerializedTask(task);
