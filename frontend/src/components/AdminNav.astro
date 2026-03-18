@@ -1,6 +1,6 @@
 ---
 interface Props {
-  active: "players" | "tasks" | "tests" | "settings";
+  active: "players" | "tasks" | "tests" | "settings" | "console";
 }
  
 const { active } = Astro.props;
@@ -11,6 +11,7 @@ const { active } = Astro.props;
   <a href="/admin/tasks" class:list={["admin-nav-link", { active: active === "tasks" }]}>Tasks</a>
   <a href="/admin/tests" class:list={["admin-nav-link", { active: active === "tests" }]}>Tests</a>
   <a href="/admin/settings" class:list={["admin-nav-link", { active: active === "settings" }]}>Settings</a>
+  <a href="/admin/console" class:list={["admin-nav-link", { active: active === "console" }]}>Console</a>
 </div>
  
 <style>

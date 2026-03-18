@@ -1,0 +1,236 @@
+---
+export const prerender = false;
+ 
+import "../../styles/global.css";
+import { getCurrentUser } from "../../lib/session";
+import Header from "../../components/Header.astro";
+import AdminNav from "../../components/AdminNav.astro";
+ 
+const user = await getCurrentUser(Astro.request);
+ 
+if (!user || !user.is_admin) {
+  return Astro.redirect("/");
+}
+---
+ 
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="x-icon" href="/betaiconJustb.webp" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Console - Admin Panel - BETA-CODE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <Header user={user} />
+ 
+    <main class="admin-page">
+      <div class="admin-intro">
+        <h1>Admin Panel</h1>
+        <p class="p-text">Manage players, tasks, and tests.</p>
+      </div>
+ 
+      <div id="status-message" class="status-message" style="display: none;"></div>
+ 
+      <AdminNav active="console" />
+      <div class="admin-card">
+        <h2 class="section-title">Console</h2>
+        <p class="console-hint">Send an image to one or more users. Separate names with commas, or type <strong>all</strong> to send to everyone.</p>
+ 
+        <div class="console-form">
+          <div class="form-row">
+            <label for="cmd-username">Username(s)</label>
+            <input id="cmd-username" type="text" placeholder="mats, herman, albert — or 'all'" autocomplete="off" />
+          </div>
+          <div class="form-row">
+            <label for="cmd-image-url">Image URL</label>
+            <input id="cmd-image-url" type="text" placeholder="https://example.com/image.png" autocomplete="off" />
+          </div>
+          <button id="send-image-btn" class="primary-btn">Send Image</button>
+        </div>
+ 
+        <div class="console-log" id="console-log"></div>
+      </div>
+    </main>
+ 
+    <script>
+      const statusEl = document.getElementById('status-message');
+      const logEl = document.getElementById('console-log');
+ 
+      function showStatus(msg: string, isError = false) {
+        if (!statusEl) return;
+        statusEl.textContent = msg;
+        statusEl.className = isError ? 'status-message status-error' : 'status-message status-success';
+        statusEl.style.display = 'block';
+        setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+      }
+ 
+      function appendLog(msg: string, isError = false) {
+        if (!logEl) return;
+        const line = document.createElement('div');
+        line.className = isError ? 'log-line log-error' : 'log-line log-success';
+        const time = new Date().toLocaleTimeString();
+        line.textContent = `[${time}] ${msg}`;
+        logEl.prepend(line);
+      }
+ 
+      document.getElementById('send-image-btn')?.addEventListener('click', async () => {
+        const usernameInput = document.getElementById('cmd-username') as HTMLInputElement;
+        const imageUrlInput = document.getElementById('cmd-image-url') as HTMLInputElement;
+        const username = usernameInput.value.trim();
+        const imageUrl = imageUrlInput.value.trim();
+ 
+        if (!username || !imageUrl) {
+          showStatus('Please enter both a username and an image URL', true);
+          return;
+        }
+ 
+        try {
+          const res = await fetch('/api/admin/console', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, imageUrl }),
+          });
+          const data = await res.json();
+ 
+          if (data.success) {
+            usernameInput.value = '';
+            imageUrlInput.value = '';
+          } else {
+            showStatus(data.error || 'Failed to send image', true);
+            appendLog(data.error || 'Failed to send image', true);
+          }
+        } catch {
+          showStatus('Network error', true);
+          appendLog('Network error', true);
+        }
+      });
+    </script>
+ 
+    <style>
+      .admin-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 16px 64px;
+        text-align: left;
+      }
+ 
+      .admin-intro h1 {
+        margin-bottom: 8px;
+      }
+ 
+      .status-message {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+ 
+      .status-success {
+        background: rgba(80, 255, 120, 0.1);
+        border: 1px solid rgba(80, 255, 120, 0.4);
+        color: #6bff6b;
+      }
+ 
+      .status-error {
+        background: rgba(255, 80, 80, 0.1);
+        border: 1px solid rgba(255, 80, 80, 0.4);
+        color: #ff6b6b;
+      }
+ 
+      .admin-card {
+        background: #111b2b;
+        border-radius: 0 16px 16px 16px;
+        padding: 24px;
+        margin-top: 0;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        margin-bottom: 24px;
+      }
+ 
+      .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        color: var(--text-color);
+      }
+ 
+      .console-hint {
+        color: var(--small-text);
+        font-size: 0.85rem;
+        margin: 0 0 20px;
+      }
+ 
+      .console-form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+ 
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+ 
+      .form-row label {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+ 
+      .form-row input {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #2d3f5f;
+        background: #0c1420;
+        color: var(--text-color);
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        box-sizing: border-box;
+      }
+ 
+      .primary-btn {
+        align-self: flex-start;
+        padding: 8px 20px;
+        background: var(--beta-blue, #2563eb);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: opacity 0.2s;
+      }
+ 
+      .primary-btn:hover {
+        opacity: 0.85;
+      }
+ 
+      .console-log {
+        margin-top: 24px;
+        max-height: 300px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+ 
+      .log-line {
+        font-size: 0.82rem;
+        font-family: monospace;
+        padding: 6px 10px;
+        border-radius: 4px;
+        background: #0c1420;
+      }
+ 
+      .log-success {
+        color: #6bff6b;
+      }
+ 
+      .log-error {
+        color: #ff6b6b;
+      }
+    </style>
+  </body>
+</html>

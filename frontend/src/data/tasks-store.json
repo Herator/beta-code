@@ -5,9 +5,14 @@
       "name": "Multiply Two Numbers",
       "description": "Read two integers from stdin and print their product.",
       "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read two integers and print their product\n}\n",
-      "points": 50,
+      "points": 300,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "io",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
@@ -15,179 +20,269 @@
       "name": "Even or Odd",
       "description": "Read an integer from stdin and print `Even` if it is even or `Odd` if it is odd.",
       "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read an integer and print \"Even\" or \"Odd\"\n}\n",
-      "points": 50,
+      "points": 300,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "math",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 3,
-      "name": "Reverse a String",
-      "description": "Read a single word from stdin and print it reversed.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and print it reversed\n}\n",
-      "points": 50,
+      "name": "Find the Maximum",
+      "description": "Read an integer N followed by N integers. Print the largest integer.",
+      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then N integers, and print the maximum\n}\n",
+      "points": 300,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "arrays",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 4,
-      "name": "Find the Maximum",
-      "description": "Read an integer N followed by N integers. Print the largest integer.",
-      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then N integers, and print the maximum\n}\n",
-      "points": 60,
+      "name": "Sum of Array",
+      "description": "Read an integer N, then N integers. Print their sum.",
+      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then N integers, and print their sum\n}\n",
+      "points": 300,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "arrays",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 5,
-      "name": "Count Vowels",
-      "description": "Read a single word from stdin and print the number of vowels (a, e, i, o, u — lowercase only) it contains.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and count the vowels\n}\n",
-      "points": 50,
+      "name": "Reverse a String",
+      "description": "Read a single word from stdin and print it reversed.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and print it reversed\n}\n",
+      "points": 350,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "strings",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 6,
-      "name": "Sum of Array",
-      "description": "Read an integer N, then N integers. Print their sum.",
-      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then N integers, and print their sum\n}\n",
-      "points": 50,
+      "name": "Count Vowels",
+      "description": "Read a single word from stdin and print the number of vowels (a, e, i, o, u \u2014 lowercase only) it contains.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and count the vowels\n}\n",
+      "points": 350,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "strings",
+        "basics"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 7,
-      "name": "CSV Row Counter",
-      "description": "A CSV file named `data.csv` is provided. It has a header row followed by data rows. Count and print the number of data rows (do not count the header).",
-      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"data.csv\" and count the data rows (skip the header)\n}\n",
-      "points": 60,
+      "name": "Fibonacci Sequence",
+      "description": "Read an integer N from stdin. Print the first N Fibonacci numbers (starting from 0, 1, 1, 2, 3, 5, ...) separated by spaces.",
+      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N and print the first N Fibonacci numbers\n}\n",
+      "points": 400,
       "type": "solve",
       "difficulty": "Easy",
+      "tags": [
+        "math",
+        "logic"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 8,
-      "name": "Palindrome Check",
-      "description": "Read a single word from stdin. Print `YES` if it is a palindrome (reads the same forwards and backwards) or `NO` otherwise.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and check if it is a palindrome\n}\n",
-      "points": 75,
+      "name": "Binary to Decimal",
+      "description": "Read a binary string (containing only '0' and '1') from stdin and print its decimal equivalent.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a binary string and convert to decimal\n}\n",
+      "points": 400,
       "type": "solve",
-      "difficulty": "Medium",
+      "difficulty": "Easy",
+      "tags": [
+        "math",
+        "strings"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 9,
-      "name": "Prime Number Check",
-      "description": "Read an integer N (N >= 2) from stdin. Print `PRIME` if it is a prime number, or `NOT PRIME` otherwise.",
-      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N and determine if it is prime\n}\n",
-      "points": 75,
+      "name": "Palindrome Check",
+      "description": "Read a single word from stdin. Print `YES` if it is a palindrome (reads the same forwards and backwards) or `NO` otherwise.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a word and check if it is a palindrome\n}\n",
+      "points": 500,
       "type": "solve",
       "difficulty": "Medium",
+      "tags": [
+        "strings",
+        "logic"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 10,
-      "name": "Fibonacci Sequence",
-      "description": "Read an integer N from stdin. Print the first N Fibonacci numbers (starting from 0, 1, 1, 2, 3, 5, ...) separated by spaces.",
-      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N and print the first N Fibonacci numbers\n}\n",
-      "points": 80,
+      "name": "Prime Number Check",
+      "description": "Read an integer N (N >= 2) from stdin. Print `PRIME` if it is a prime number, or `NOT PRIME` otherwise.",
+      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N and determine if it is prime\n}\n",
+      "points": 500,
       "type": "solve",
       "difficulty": "Medium",
+      "tags": [
+        "math",
+        "logic"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 11,
-      "name": "Matrix Diagonal Sum",
-      "description": "Read an integer N, then an N×N matrix of integers (row by row). Print the sum of the elements on the main diagonal (top-left to bottom-right).",
-      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then the NxN matrix, and print the diagonal sum\n}\n",
-      "points": 75,
+      "name": "CSV Row Counter",
+      "description": "A CSV file named `data.csv` is provided. It has a header row followed by data rows. Count and print the number of data rows (do not count the header).",
+      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"data.csv\" and count the data rows (skip the header)\n}\n",
+      "points": 550,
       "type": "solve",
       "difficulty": "Medium",
+      "tags": [
+        "file-io",
+        "csv"
+      ],
+      "data_file": "data.csv",
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 12,
-      "name": "Binary to Decimal",
-      "description": "Read a binary string (containing only '0' and '1') from stdin and print its decimal equivalent.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a binary string and convert to decimal\n}\n",
-      "points": 75,
+      "name": "Matrix Diagonal Sum",
+      "description": "Read an integer N, then an N\u00d7N matrix of integers (row by row). Print the sum of the elements on the main diagonal (top-left to bottom-right).",
+      "code_preview": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Read N, then the NxN matrix, and print the diagonal sum\n}\n",
+      "points": 550,
       "type": "solve",
       "difficulty": "Medium",
+      "tags": [
+        "arrays",
+        "math"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 13,
-      "name": "CSV Column Sum",
-      "description": "A CSV file named `data.csv` is provided with a header row and data rows. Read an integer from stdin indicating a column index (0-indexed). Sum all numeric values in that column (skipping the header) and print the result.",
-      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    // Read column index from stdin\n    // Open \"data.csv\", skip header, sum values in that column\n}\n",
-      "points": 80,
+      "name": "Balanced Parentheses",
+      "description": "Read a string containing only `(`, `)`, `[`, `]`, `{`, `}`. Print `YES` if the parentheses are balanced and properly nested, or `NO` otherwise.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a string and check if brackets are balanced\n}\n",
+      "points": 650,
       "type": "solve",
       "difficulty": "Medium",
+      "tags": [
+        "stacks",
+        "strings"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 14,
-      "name": "JSON Value Sum",
-      "description": "A JSON file named `data.json` is provided where each line is a JSON object with `\"name\"` and `\"value\"` fields (e.g. `{\"name\": \"Alpha\", \"value\": 10}`). Read the file and print the sum of all `value` fields.",
-      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"data.json\", parse each line, sum all \"value\" fields\n}\n",
-      "points": 80,
+      "name": "CSV Column Sum",
+      "description": "A CSV file named `data.csv` is provided with a header row and data rows. Read an integer from stdin indicating a column index (0-indexed). Sum all numeric values in that column (skipping the header) and print the result.",
+      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    // Read column index from stdin\n    // Open \"data.csv\", skip header, sum values in that column\n}\n",
+      "points": 750,
       "type": "solve",
-      "difficulty": "Medium",
+      "difficulty": "Hard",
+      "tags": [
+        "file-io",
+        "csv"
+      ],
+      "data_file": "data.csv",
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 15,
-      "name": "Longest Common Subsequence",
-      "description": "Read two strings from stdin (one per line). Print the length of their longest common subsequence.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read two strings and find the length of their LCS\n}\n",
-      "points": 100,
+      "name": "Merge Intervals",
+      "description": "Read an integer N, then N pairs of integers representing intervals [start, end]. Merge all overlapping intervals and print the resulting intervals, one per line, in the format `start end`, sorted by start value.",
+      "code_preview": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // Read N intervals, merge overlapping ones, and print the result\n}\n",
+      "points": 800,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "sorting",
+        "logic"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 16,
-      "name": "Merge Intervals",
-      "description": "Read an integer N, then N pairs of integers representing intervals [start, end]. Merge all overlapping intervals and print the resulting intervals, one per line, in the format `start end`, sorted by start value.",
-      "code_preview": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // Read N intervals, merge overlapping ones, and print the result\n}\n",
-      "points": 100,
+      "name": "CSV Student Grades",
+      "description": "A CSV file named `grades.csv` is provided with a header row followed by student data. Each row has a student name followed by numeric scores for each subject (comma-separated). Print each student's name followed by a space and their average score (using integer division), one per line.",
+      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    // Open \"grades.csv\", skip header\n    // For each student: compute average of their scores (integer division)\n    // Print: name average\n}\n",
+      "points": 800,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "file-io",
+        "csv"
+      ],
+      "data_file": "grades.csv",
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 17,
-      "name": "Balanced Parentheses",
-      "description": "Read a string containing only `(`, `)`, `[`, `]`, `{`, `}`. Print `YES` if the parentheses are balanced and properly nested, or `NO` otherwise.",
-      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read a string and check if brackets are balanced\n}\n",
-      "points": 100,
+      "name": "JSON Value Sum",
+      "description": "A JSON file named `data.json` is provided where each line is a JSON object with `\"name\"` and `\"value\"` fields (e.g. `{\"name\": \"Alpha\", \"value\": 10}`). Read the file and print the sum of all `value` fields.",
+      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"data.json\", parse each line, sum all \"value\" fields\n}\n",
+      "points": 900,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "file-io",
+        "json"
+      ],
+      "data_file": "data.json",
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 18,
-      "name": "CSV Student Grades",
-      "description": "A CSV file named `grades.csv` is provided with a header row followed by student data. Each row has a student name followed by numeric scores for each subject (comma-separated). Print each student's name followed by a space and their average score (using integer division), one per line.",
-      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    // Open \"grades.csv\", skip header\n    // For each student: compute average of their scores (integer division)\n    // Print: name average\n}\n",
-      "points": 120,
+      "name": "JSON Inventory Total",
+      "description": "A JSON file named `inventory.json` is provided where each line is a JSON object with `\"item\"`, `\"price\"`, and `\"qty\"` fields (e.g. `{\"item\": \"Widget\", \"price\": 10, \"qty\": 5}`). Compute and print the total inventory value, which is the sum of price * qty for each item.",
+      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"inventory.json\"\n    // Parse each line for \"price\" and \"qty\" fields\n    // Print sum of (price * qty) for all items\n}\n",
+      "points": 900,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "file-io",
+        "json"
+      ],
+      "data_file": "inventory.json",
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
       "id": 19,
-      "name": "JSON Inventory Total",
-      "description": "A JSON file named `inventory.json` is provided where each line is a JSON object with `\"item\"`, `\"price\"`, and `\"qty\"` fields (e.g. `{\"item\": \"Widget\", \"price\": 10, \"qty\": 5}`). Compute and print the total inventory value, which is the sum of price * qty for each item.",
-      "code_preview": "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Open \"inventory.json\"\n    // Parse each line for \"price\" and \"qty\" fields\n    // Print sum of (price * qty) for all items\n}\n",
-      "points": 120,
+      "name": "Longest Common Subsequence",
+      "description": "Read two strings from stdin (one per line). Print the length of their longest common subsequence.",
+      "code_preview": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    // Read two strings and find the length of their LCS\n}\n",
+      "points": 1100,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "dp",
+        "strings"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     },
     {
@@ -195,9 +290,14 @@
       "name": "Longest Increasing Subsequence",
       "description": "Read an integer N, then N integers. Print the length of the longest strictly increasing subsequence.",
       "code_preview": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    // Read N integers and find the length of the longest increasing subsequence\n}\n",
-      "points": 120,
+      "points": 1100,
       "type": "solve",
       "difficulty": "Hard",
+      "tags": [
+        "dp",
+        "arrays"
+      ],
+      "data_file": null,
       "created_at": "2026-03-11T00:00:00.000Z"
     }
   ]

@@ -30,6 +30,10 @@ const { user } = Astro.props;
   </nav>
 </header>
  
+<div id="image-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; cursor:pointer;">
+  <img id="image-overlay-img" src="" alt="" style="max-width:90vw; max-height:90vh; border-radius:12px; box-shadow:0 0 40px rgba(0,133,254,0.5);" />
+</div>
+
 <script>
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
@@ -38,6 +42,57 @@ const { user } = Astro.props;
       window.location.reload();
     });
   }
+
+  // Poll for image alerts (only if logged in)
+  if (logoutBtn) {
+    const overlay = document.getElementById('image-overlay')!;
+    const overlayImg = document.getElementById('image-overlay-img') as HTMLImageElement;
+ 
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+ 
+    async function checkImageAlert() {
+      try {
+        const res = await fetch('/api/user/image-alert');
+        const data = await res.json();
+        if (data.image) {
+          overlayImg.src = data.image;
+          overlay.style.display = 'flex';
+        }
+      } catch {
+        // ignore network errors
+      }
+    }
+ 
+    // Check every 3 seconds
+    setInterval(checkImageAlert, 3000);
+    // Also check immediately on page load
+    checkImageAlert();
+  }
+ 
+  // Expose sendImage command for browser console use by any logged-in user
+  (window as any).sendImage = async function(username: string) {
+    if (!username) {
+      console.log('%c Usage: sendImage("username")', 'color: #0085fe; font-weight: bold');
+      return;
+    }
+    try {
+      const res = await fetch('/api/user/send-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        console.log(`%c Image sent to ${username}!`, 'color: #6bff6b; font-weight: bold');
+      } else {
+        console.log(`%c Error: ${data.error}`, 'color: #ff6b6b; font-weight: bold');
+      }
+    } catch {
+      console.log('%c Network error', 'color: #ff6b6b; font-weight: bold');
+    }
+  };
 </script>
  
 <style>
