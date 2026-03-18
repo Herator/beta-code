@@ -2,7 +2,7 @@
 export const prerender = false;
  
 import "../../styles/global.css";
-import { initTasksTable, getAllTasks } from "../../lib/tasks";
+import { initTasksTable, getVisibleTasks } from "../../lib/tasks";
 import { getCurrentUser } from "../../lib/session";
 import { hasCompetitionStarted } from "../../lib/settings";
 import Header from "../../components/Header.astro";
@@ -15,7 +15,7 @@ const user = await getCurrentUser(Astro.request);
 const completedTasks = user?.completed_tasks || [];
 
 await initTasksTable();
-const tasks = await getAllTasks();
+const tasks = await getVisibleTasks();
 ---
  
 <html lang="en">
@@ -35,7 +35,7 @@ const tasks = await getAllTasks();
     <h1>All Tasks</h1>
     <p class="p-text">Choose a task to start coding.</p>
     {user && (
-            <p class="p-text">Completed: {completedTasks.length} / {tasks.length}</p>
+            <p class="p-text">Completed: {completedTasks.length} / {tasks.length+1}</p>
     )}
     <ul style="list-style:none; padding:0; display:grid; gap:12px;">
       {tasks.map((t) => {

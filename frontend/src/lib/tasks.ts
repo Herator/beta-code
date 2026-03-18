@@ -11,6 +11,7 @@ export interface Task {
   difficulty: string;
   tags: string[];
   data_file: string | null;
+  is_hidden: boolean;
   created_at: Date;
 }
 
@@ -33,7 +34,7 @@ const tasksStorePath = path.resolve(process.cwd(), "src/data/tasks-store.json");
 const testsStorePath = path.resolve(process.cwd(), "src/data/tests-store.json");
 
 function fromSerializedTask(task: SerializedTask): Task {
-  return { ...task, created_at: new Date(task.created_at) };
+  return { ...task, is_hidden: task.is_hidden ?? false, created_at: new Date(task.created_at) };
 }
 
 function fromSerializedTest(test: SerializedTaskTest): TaskTest {
@@ -90,6 +91,11 @@ export async function getAllTasks(): Promise<Task[]> {
   return tasks.map(fromSerializedTask).sort((a, b) => a.id - b.id);
 }
 
+export async function getVisibleTasks(): Promise<Task[]> {
+  const tasks = await getAllTasks();
+  return tasks.filter((t) => !t.is_hidden);
+}
+
 export async function getTaskById(id: number): Promise<Task | null> {
   const tasks = await readTasksStore();
   const found = tasks.find((task) => task.id === id);
@@ -104,6 +110,7 @@ export async function createTask(data: {
   type: "solve" | "fix";
   difficulty: string;
   tags?: string[];
+  is_hidden?: boolean;
   data_file?: string | null;
 }): Promise<Task> {
   const tasks = await readTasksStore();
@@ -118,6 +125,7 @@ export async function createTask(data: {
     difficulty: data.difficulty,
     tags: data.tags ?? [],
     data_file: data.data_file ?? null,
+    is_hidden: data.is_hidden ?? false,
     created_at: new Date(),
   };
 
@@ -128,7 +136,7 @@ export async function createTask(data: {
 
 export async function updateTask(
   id: number,
-  data: Partial<Pick<Task, "name" | "description" | "code_preview" | "points" | "type" | "difficulty" | "tags" | "data_file">>
+  data: Partial<Pick<Task, "name" | "description" | "code_preview" | "points" | "type" | "difficulty" | "tags" | "data_file" | "is_hidden">>
 ): Promise<Task | null> {
   const tasks = await readTasksStore();
   const task = tasks.find((entry) => entry.id === id);
@@ -142,6 +150,7 @@ export async function updateTask(
   if (data.difficulty !== undefined) task.difficulty = data.difficulty;
   if (data.tags !== undefined) task.tags = data.tags;
   if (data.data_file !== undefined) task.data_file = data.data_file;
+  if (data.is_hidden !== undefined) task.is_hidden = data.is_hidden;
 
   await writeTasksStore(tasks);
   return fromSerializedTask(task);

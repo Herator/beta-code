@@ -44,13 +44,14 @@ export async function POST({ request }: { request: Request }) {
     ? body.difficulty
     : "Easy";
   const tags = Array.isArray(body?.tags) ? body.tags.map(String) : [];
+  const is_hidden = Boolean(body?.is_hidden ?? false);
   const data_file = body?.data_file ? String(body.data_file) : null;
 
   if (!name) {
     return new Response(JSON.stringify({ error: "Name is required" }), { status: 400 });
   }
 
-  const task = await createTask({ name, description, code_preview, points, type, difficulty, tags, data_file });
+  const task = await createTask({ name, description, code_preview, points, type, difficulty, tags, data_file, is_hidden });
   return new Response(JSON.stringify(task), {
     status: 201,
     headers: { "Content-Type": "application/json" },
@@ -93,6 +94,7 @@ export async function PUT({ request }: { request: Request }) {
   const difficulty = ["Easy", "Medium", "Hard"].includes(body?.difficulty)
     ? body.difficulty
     : "Easy";
+  const is_hidden = Boolean(body?.is_hidden ?? false);
   const tags = Array.isArray(body?.tags) ? body.tags.map(String) : undefined;
   const data_file = body?.data_file !== undefined ? (body.data_file ? String(body.data_file) : null) : undefined;
 
@@ -100,7 +102,7 @@ export async function PUT({ request }: { request: Request }) {
     return new Response(JSON.stringify({ error: "Name is required" }), { status: 400 });
   }
 
-  const task = await updateTask(id, { name, description, code_preview, points, type, difficulty, tags, data_file });
+  const task = await updateTask(id, { name, description, code_preview, points, type, difficulty, tags, data_file , is_hidden });
   if (!task) return new Response(JSON.stringify({ error: "Task not found" }), { status: 404 });
 
   return new Response(JSON.stringify(task), {

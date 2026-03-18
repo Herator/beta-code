@@ -1,6 +1,6 @@
 export const prerender = false;
 
-import { initTasksTable, getAllTasks, getTaskById } from "../../../lib/tasks";
+import { initTasksTable, getVisibleTasks, getTaskById } from "../../../lib/tasks";
 import { hasCompetitionStarted } from "../../../lib/settings";
 
 // GET /api/tasks — list all tasks
@@ -18,13 +18,13 @@ export async function GET({ request }: { request: Request }) {
     const id = Number(idParam);
     if (!id) return new Response(JSON.stringify({ error: "Invalid id" }), { status: 400 });
     const task = await getTaskById(id);
-    if (!task) return new Response(JSON.stringify({ error: "Not found" }), { status: 404 });
+    if (!task || task.is_hidden) return new Response(JSON.stringify({ error: "Not found" }), { status: 404 });
     return new Response(JSON.stringify(task), {
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const tasks = await getAllTasks();
+  const tasks = await getVisibleTasks();
   return new Response(JSON.stringify(tasks), {
     headers: { "Content-Type": "application/json" },
   });

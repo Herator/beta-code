@@ -82,6 +82,12 @@ try {
                 </select>
               </div>
             </div>
+            <div class="form-row form-row-checkbox">
+              <label>
+                <input id="task-hidden" type="checkbox" />
+                Hidden (not visible to participants)
+              </label>
+            </div>
             <div class="form-actions-row">
               <button id="task-submit-btn" type="submit" class="primary-btn">Create Task</button>
               <button id="task-cancel-edit-btn" type="button" class="secondary-btn" style="display:none;">Cancel Edit</button>
@@ -103,6 +109,7 @@ try {
                     <th>Type</th>
                     <th>Difficulty</th>
                     <th>Points</th>
+                    <th>Hidden</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -114,6 +121,7 @@ try {
                       <td><span class={`type-badge ${t.type === 'fix' ? 'fix-badge' : 'solve-badge'}`}>{t.type === 'fix' ? 'Bug Fix' : 'Solve'}</span></td>
                       <td>{t.difficulty}</td>
                       <td>{t.points}</td>
+                      <td>{t.is_hidden ? <span class="hidden-badge">Yes</span> : <span class="visible-badge">No</span>}</td>
                       <td>
                         <button class="edit-task-btn" data-task-id={t.id}>Edit</button>
                         <button class="delete-task-btn" data-task-id={t.id}>Delete</button>
@@ -179,12 +187,13 @@ try {
         const points = Number((document.getElementById('task-points') as HTMLInputElement)?.value);
         const type = (document.getElementById('task-type') as HTMLSelectElement)?.value ?? 'solve';
         const difficulty = (document.getElementById('task-difficulty') as HTMLSelectElement)?.value ?? 'Easy';
+        const is_hidden = (document.getElementById('task-hidden') as HTMLInputElement)?.checked ?? false;
  
         const isEditing = editingTaskId !== null;
         const res = await fetch('/api/admin/tasks', {
           method: isEditing ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: editingTaskId, name, description, code_preview, points, type, difficulty }),
+          body: JSON.stringify({ id: editingTaskId, name, description, code_preview, points, type, difficulty, is_hidden }),
         });
         const data = await res.json();
         if (res.ok) {
@@ -206,7 +215,7 @@ try {
         resetTaskFormMode();
       });
  
-      function addTaskRow(task: { id: string | number; name: string; type: string; difficulty: string; points: number }) {
+      function addTaskRow(task: { id: string | number; name: string; type: string; difficulty: string; points: number; is_hidden?: boolean }) {
         const tbody = document.getElementById('tasks-tbody');
         if (!tbody) {
           window.location.reload();
@@ -215,6 +224,9 @@ try {
         const typeBadge = task.type === 'fix'
           ? '<span class="type-badge fix-badge">Bug Fix</span>'
           : '<span class="type-badge solve-badge">Solve</span>';
+        const hiddenBadge = task.is_hidden
+          ? '<span class="hidden-badge">Yes</span>'
+          : '<span class="visible-badge">No</span>';
         const tr = document.createElement('tr');
         tr.dataset.taskId = String(task.id);
         tr.innerHTML = `
@@ -223,6 +235,7 @@ try {
           <td>${typeBadge}</td>
           <td>${escHtml(task.difficulty)}</td>
           <td>${escHtml(task.points)}</td>
+          <td>${hiddenBadge}</td>
           <td><button class="edit-task-btn" data-task-id="${escHtml(task.id)}">Edit</button> <button class="delete-task-btn" data-task-id="${escHtml(task.id)}">Delete</button></td>
         `;
         tr.querySelector('.delete-task-btn')?.addEventListener('click', handleDeleteTask);
@@ -247,6 +260,7 @@ try {
         (document.getElementById('task-points') as HTMLInputElement).value = String(existing.points ?? 50);
         (document.getElementById('task-type') as HTMLSelectElement).value = existing.type === 'fix' ? 'fix' : 'solve';
         (document.getElementById('task-difficulty') as HTMLSelectElement).value = ['Easy', 'Medium', 'Hard'].includes(existing.difficulty) ? existing.difficulty : 'Easy';
+        (document.getElementById('task-hidden') as HTMLInputElement).checked = Boolean(existing.is_hidden);
         setTaskFormModeForEdit(taskId);
         (createTaskForm as HTMLElement | null)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -502,6 +516,53 @@ try {
  
       .delete-task-btn:hover {
         background: rgba(255, 80, 80, 0.15);
+      }
+
+      .hidden-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        background: rgba(231, 76, 60, 0.15);
+        color: #e74c3c;
+        border: 1px solid rgba(231, 76, 60, 0.3);
+      }
+
+      .visible-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        background: rgba(46, 204, 113, 0.15);
+        color: #2ecc71;
+        border: 1px solid rgba(46, 204, 113, 0.3);
+      }
+
+      .form-row-checkbox {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .form-row-checkbox label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--small-text);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+      }
+
+      .form-row-checkbox input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        accent-color: var(--beta-blue, #2563eb);
       }
     </style>
   </body>

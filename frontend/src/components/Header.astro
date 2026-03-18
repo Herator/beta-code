@@ -4,14 +4,26 @@ interface Props {
 }
  
 const { user } = Astro.props;
+const curretnPath = Astro.url.pathname;
+const isHome = curretnPath === '/';
 ---
  
 <header class="site-header">
   <div class="header-left">
-    <a href="/"><img class="logo" src="/betaiconJustb.webp" alt="Beta-code logo"></a>
-    <h1 class="logo-name">
-      <a href="/" class="logo-name">eta-code</a>
-    </h1>
+    <div class={`logo-slide-wrapper ${isHome ? 'is-home' : ''}`}>
+      <div class="logo-slide-track">
+        <!-- Hidden button revealed by sliding right -->
+        <button class="hidden-reveal-btn">🦦</button>
+
+        <!-- The logo + text -->
+        <div class="logo-slide-content">
+          <a href="/"><img class="logo" src="/betaiconJustb.webp" alt="Beta-code logo"></a>
+          <h1 class="logo-name">
+            <a href="/" class="logo-name">eta-code</a>
+          </h1>
+        </div>
+      </div>
+    </div>
   </div>
   <nav class="site-nav">
     <a href="/">Home</a>
@@ -70,6 +82,23 @@ const { user } = Astro.props;
     // Also check immediately on page load
     checkImageAlert();
   }
+
+  // Otter easter egg
+  const otterBtn = document.querySelector('.hidden-reveal-btn');
+  if (otterBtn && logoutBtn) { // logoutBtn check = user is logged in
+    otterBtn.addEventListener('click', async () => {
+      const res = await fetch('/api/problems/complete-task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ problemId: '21' }),
+      });
+      const data = await res.json();
+      if (data.success && data.newTask) {
+        alert('🦦 You found the hidden otter! +1 point');
+      }
+    });
+  }
+
  
   // Expose sendImage command for browser console use by any logged-in user
   (window as any).sendImage = async function(username: string) {
@@ -126,5 +155,48 @@ const { user } = Astro.props;
   .logo-name {
     text-decoration: none;
     color: inherit; 
+  }
+
+  /* Slide-to-reveal wrapper */
+  .logo-slide-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Hidden button sits to the LEFT, revealed on slide */
+  .hidden-reveal-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 3rem;
+  }
+
+  /* Inner track holds both the logo+text AND the button side by side */
+  .logo-slide-track {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.4s ease;
+    transform: translateX(-90px); /* hides the button off to the left — tweak to match your button width */
+  }
+
+  /* The logo + text */
+  .logo-slide-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* On hover, slide right to reveal the button */
+  .logo-slide-wrapper.is-home:hover .logo-slide-track {
+    transform: translateX(0);
   }
 </style>
