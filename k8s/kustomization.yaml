@@ -12,6 +12,7 @@ resources:
   - frontend.yaml
   - runner.yaml
   - ingress.yaml
+  - nfs-storageclass.yaml
   # Apply keda-scaledobject.yaml only after KEDA is installed:
   #   kubectl apply -f keda-scaledobject.yaml
   # - keda-scaledobject.yaml

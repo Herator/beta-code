@@ -22,9 +22,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    # Replace with your actual domain or IP. For local testing use the
-    # cluster IP returned by: kubectl get ingress -n beta-code
-    - host: beta-code.local
+    # REPLACE: swap SERVER1_IP for your Server 1 IP address, or use your domain
+    - host: SERVER1_IP
       http:
         paths:
           - path: /

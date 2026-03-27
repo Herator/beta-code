@@ -18,9 +18,9 @@ spec:
     spec:
       containers:
         - name: runner
-          # Replace with your registry image, e.g. your-registry/beta-code-runner:latest
-          image: beta-code-runner:latest
-          imagePullPolicy: IfNotPresent
+          # REPLACE: swap SERVER1_IP for your Server 1 IP address
+          image: SERVER1_IP:5000/beta-code-runner:latest
+          imagePullPolicy: Always
           env:
             - name: REDIS_URL
               valueFrom:

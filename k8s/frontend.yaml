@@ -11,6 +11,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 1Gi
@@ -53,9 +54,9 @@ spec:
               app: frontend
       containers:
         - name: frontend
-          # Replace with your registry image, e.g. your-registry/beta-code-frontend:latest
-          image: beta-code-frontend:latest
-          imagePullPolicy: IfNotPresent
+          # REPLACE: swap SERVER1_IP for your Server 1 IP address
+          image: SERVER1_IP:5000/beta-code-frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4321
           env:
