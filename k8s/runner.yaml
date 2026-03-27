@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runner
+  namespace: beta-code
+spec:
+  # KEDA (keda-scaledobject.yaml) manages replica count based on queue depth.
+  # Set replicas: 1 as a baseline; KEDA will override this.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runner
+  template:
+    metadata:
+      labels:
+        app: runner
+    spec:
+      containers:
+        - name: runner
+          # Replace with your registry image, e.g. your-registry/beta-code-runner:latest
+          image: beta-code-runner:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: REDIS_URL
+            - name: FRONTEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: FRONTEND_URL
+            - name: JOBS_BASE
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: JOBS_BASE
+            - name: CONCURRENCY
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: CONCURRENCY
+            - name: RUNNER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: beta-code-secrets
+                  key: RUNNER_SECRET
+          volumeMounts:
+            # Mount the host Docker socket so the runner can spawn cpp-sandbox containers.
+            # Requires Docker to be the container runtime on the node (or a DinD sidecar).
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+            - name: jobs
+              mountPath: /app/runner/jobs
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              # Each job runs a sandboxed Docker container consuming up to 256 MB.
+              # Limit the runner pod itself; actual sandbox resource limits are set
+              # via `docker run --memory 256m` inside worker.js.
+              cpu: 1000m
+              memory: 512Mi
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+        - name: jobs
+          emptyDir: {}

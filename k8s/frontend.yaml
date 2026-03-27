@@ -1,0 +1,140 @@
+---
+# Shared volume for JSON data files (problems, tasks, tests, settings).
+# Requires a storage class that supports ReadWriteMany (e.g. NFS, CephFS).
+# For single-node clusters (Minikube/kind) change accessModes to ReadWriteOnce
+# and set replicas/HPA minReplicas to 1.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-data-pvc
+  namespace: beta-code
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: beta-code
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 4321
+      targetPort: 4321
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: beta-code
+spec:
+  # Minimum 2 replicas so traffic keeps flowing if one pod dies (the proxy goal)
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      # Spread pods across different nodes to avoid a single point of failure
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: frontend
+      containers:
+        - name: frontend
+          # Replace with your registry image, e.g. your-registry/beta-code-frontend:latest
+          image: beta-code-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4321
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: DATABASE_URL
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: beta-code-config
+                  key: REDIS_URL
+            - name: RUNNER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: beta-code-secrets
+                  key: RUNNER_SECRET
+          volumeMounts:
+            - name: data
+              mountPath: /app/src/data
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4321
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 4321
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: frontend-data-pvc
+---
+# Auto-scale frontend pods based on CPU usage
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa
+  namespace: beta-code
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120
+    scaleUp:
+      stabilizationWindowSeconds: 30
+---
+# Ensure at least 1 frontend pod is always available during node maintenance
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: frontend-pdb
+  namespace: beta-code
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: frontend
