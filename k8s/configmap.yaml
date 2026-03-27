@@ -9,4 +9,6 @@ data:
   REDIS_URL: "redis://redis.beta-code.svc.cluster.local:6379"
   FRONTEND_URL: "http://frontend.beta-code.svc.cluster.local:4321"
   JOBS_BASE: "/app/runner/jobs"
-  CONCURRENCY: "10"
+  # Jobs each runner pod handles in parallel. Keep this low (3-5) so each pod
+  # isn't overloaded — KEDA adds more pods instead of piling onto one.
+  CONCURRENCY: "3"

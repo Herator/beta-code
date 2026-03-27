@@ -5,10 +5,12 @@
 #   kubectl apply --server-side -f https://github.com/kedacore/keda/releases/download/v2.15.0/keda-2.15.0.yaml
 #
 # How it works:
-#   - When the "bull:submissions:wait" Redis list has jobs, KEDA scales up the runner.
-#   - 1 runner replica is added for every `listLength` (3) pending jobs.
-#   - When the queue is empty, the runner scales down to 0 (no idle cost).
-#   - Max 10 runner replicas prevent resource exhaustion under heavy load.
+#   - KEDA watches the "bull:submissions:wait" Redis list every 3 seconds.
+#   - 1 extra runner pod is added for every `listLength` (2) jobs waiting.
+#   - Example: 20 people submit at once → 10 runner pods spin up within ~10 s,
+#     each handling up to 3 jobs in parallel → all 20 run simultaneously.
+#   - When the queue drains, pods scale back to 0 after cooldownPeriod.
+#   - Raise maxReplicaCount to match the max number of competitors you expect.
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -20,16 +22,26 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: runner
-  pollingInterval: 5       # Check queue depth every 5 seconds
-  cooldownPeriod: 60       # Wait 60 s of idle queue before scaling to 0
+  pollingInterval: 3       # Check queue depth every 3 seconds for fast reaction
+  cooldownPeriod: 90       # Wait 90 s after queue empties before scaling to 0
   minReplicaCount: 0       # Scale to 0 when no submissions are queued
-  maxReplicaCount: 10      # Hard cap on concurrent runner pods
+  maxReplicaCount: 20      # Raise this to match your peak competitor count
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0   # Scale up immediately, no waiting
+          policies:
+            - type: Percent
+              value: 100
+              periodSeconds: 5            # Can double pod count every 5 s
+        scaleDown:
+          stabilizationWindowSeconds: 90  # Don't scale down too eagerly
   triggers:
     - type: redis
       metadata:
-        # Redis address using Kubernetes DNS
         address: redis.beta-code.svc.cluster.local:6379
         # BullMQ stores waiting jobs in this Redis list
         listName: "bull:submissions:wait"
-        # Scale: 1 runner per 3 pending jobs
-        listLength: "3"
+        # 1 runner pod per 2 queued jobs — aggressive enough to drain fast
+        listLength: "2"
