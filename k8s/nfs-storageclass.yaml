@@ -1,0 +1,11 @@
+---
+# NFS StorageClass — used by the frontend PVC so all frontend pods share the same data files.
+# The nfs-subdir-external-provisioner Helm chart creates this StorageClass automatically.
+# Install it in Phase 3 of the deployment guide.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-client
+provisioner: cluster.local/nfs-subdir-external-provisioner
+parameters:
+  archiveOnDelete: "false"

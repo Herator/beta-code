@@ -1,0 +1,35 @@
+# NGINX Ingress acts as the reverse proxy / load balancer.
+# If one frontend pod goes down, NGINX automatically routes traffic to the remaining healthy pods.
+#
+# Install NGINX Ingress Controller first (if not already present):
+#   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+#
+# For Minikube:  minikube addons enable ingress
+# For kind:      see https://kind.sigs.k8s.io/docs/user/ingress/#ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: beta-code-ingress
+  namespace: beta-code
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    # Retry a request against the next healthy upstream pod on failure
+    nginx.ingress.kubernetes.io/proxy-next-upstream: "error timeout http_502 http_503 http_504"
+    nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
+spec:
+  ingressClassName: nginx
+  rules:
+    # REPLACE: swap SERVER1_IP for your Server 1 IP address, or use your domain
+    - host: SERVER1_IP
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 4321

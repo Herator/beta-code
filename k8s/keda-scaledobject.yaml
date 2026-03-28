@@ -1,0 +1,48 @@
+# KEDA (Kubernetes Event-Driven Autoscaler) scales the runner based on the
+# number of pending submissions in the BullMQ Redis queue.
+#
+# Install KEDA first:
+#   kubectl apply --server-side -f https://github.com/kedacore/keda/releases/download/v2.15.0/keda-2.15.0.yaml
+#
+# How it works:
+#   - KEDA watches the "bull:submissions:wait" Redis list every 3 seconds.
+#   - 1 extra runner pod is added for every `listLength` (2) jobs waiting.
+#   - Example: 20 people submit at once → 10 runner pods spin up within ~10 s,
+#     each handling up to 3 jobs in parallel → all 20 run simultaneously.
+#   - When the queue drains, pods scale back to 0 after cooldownPeriod.
+#   - Raise maxReplicaCount to match the max number of competitors you expect.
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: runner-scaledobject
+  namespace: beta-code
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: runner
+  pollingInterval: 3       # Check queue depth every 3 seconds for fast reaction
+  cooldownPeriod: 90       # Wait 90 s after queue empties before scaling to 0
+  minReplicaCount: 0       # Scale to 0 when no submissions are queued
+  maxReplicaCount: 20      # Raise this to match your peak competitor count
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0   # Scale up immediately, no waiting
+          policies:
+            - type: Percent
+              value: 100
+              periodSeconds: 5            # Can double pod count every 5 s
+        scaleDown:
+          stabilizationWindowSeconds: 90  # Don't scale down too eagerly
+  triggers:
+    - type: redis
+      metadata:
+        address: redis.beta-code.svc.cluster.local:6379
+        # BullMQ stores waiting jobs in this Redis list
+        listName: "bull:submissions:wait"
+        # 1 runner pod per 2 queued jobs — aggressive enough to drain fast
+        listLength: "2"
+
